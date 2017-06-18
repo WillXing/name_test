@@ -28,7 +28,7 @@ class NameTest(scrapy.Spider):
   second_word_index = 0
 
   def start_requests(self):
-    self.conn = mdb.connect("localhost", "root", "")
+    self.conn = mdb.connect("localhost", "root", "", charset="utf8")
     self.conn.select_db(self.DB_NAME)
     cursor = self.conn.cursor()
     cursor.execute("truncate table name_test")
