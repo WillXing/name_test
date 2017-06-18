@@ -56,7 +56,7 @@ class NameTest(scrapy.Spider):
 
     self.conn.select_db(self.DB_NAME)
     cursor = self.conn.cursor()
-    cursor.execute("INSERT INTO name_test values(%s,%s,%s,%s,%s,%s,%s)", (name.decode("utf-8"), total, yin, bazi, shenxiao, wuge, zhouyi))
+    cursor.execute("INSERT INTO name_test values(%s,%s,%s,%s,%s,%s,%s)", (name, total, yin, bazi, shenxiao, wuge, zhouyi))
     cursor.close()
 
     self.second_word_index = self.second_word_index + 1
