@@ -24,23 +24,24 @@ class NameTest(scrapy.Spider):
                 'zty': '1'}
   word_list = []
 
-  first_word_index = 0
-  second_word_index = 0
+  first_word_index = 67
+  second_word_index = 20
 
   def start_requests(self):
     self.conn = mdb.connect("localhost", "root", "", charset="utf8")
     self.conn.select_db(self.DB_NAME)
     cursor = self.conn.cursor()
-    cursor.execute("truncate table name_test")
     cursor.execute("select a.word as total from (select substr(name, 4, 1) as word, count(*) as sum from name group by word union select substr(name, 3, 1) as word, count(*) as sum from name group by word) as a group by a.word")
     self.word_list = cursor.fetchall()
     cursor.close()
 
+    print "First Index: " + str(self.first_word_index)
+    print "Second Index: " + str(self.second_word_index)
     self.test_name["xm"] = self.word_list[self.first_word_index][0] + self.word_list[self.second_word_index][0]
-
     return [scrapy.FormRequest("https://qiming.yw11.com/newqiming/qm/cm/", 
       formdata=self.test_name,
       callback=self.check_score)]
+
   def check_score(self, response):
     # inspect_response(response, self)
     name = self.test_name["xm"]
@@ -70,6 +71,8 @@ class NameTest(scrapy.Spider):
 
     self.conn.commit()
     time.sleep(10)
+    print "First Index: " + str(self.first_word_index)
+    print "Second Index: " + str(self.second_word_index)
     self.test_name["xm"] = self.word_list[self.first_word_index][0] + self.word_list[self.second_word_index][0]
     yield scrapy.FormRequest("https://qiming.yw11.com/newqiming/qm/cm/", 
       formdata=self.test_name,
