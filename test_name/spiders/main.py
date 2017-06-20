@@ -24,8 +24,8 @@ class NameTest(scrapy.Spider):
                 'zty': '1'}
   word_list = []
 
-  first_word_index = 67
-  second_word_index = 20
+  first_word_index = 73
+  second_word_index = 97
 
   def start_requests(self):
     self.conn = mdb.connect("localhost", "root", "", charset="utf8")
@@ -70,7 +70,7 @@ class NameTest(scrapy.Spider):
       return
 
     self.conn.commit()
-    time.sleep(10)
+
     print "First Index: " + str(self.first_word_index)
     print "Second Index: " + str(self.second_word_index)
     self.test_name["xm"] = self.word_list[self.first_word_index][0] + self.word_list[self.second_word_index][0]
