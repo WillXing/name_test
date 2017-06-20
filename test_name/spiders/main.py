@@ -25,7 +25,7 @@ class NameTest(scrapy.Spider):
   word_list = []
 
   first_word_index = 73
-  second_word_index = 104
+  second_word_index = 125
 
   def start_requests(self):
     self.conn = mdb.connect("localhost", "root", "", charset="utf8")
@@ -49,8 +49,9 @@ class NameTest(scrapy.Spider):
       time.sleep(12)
       yield scrapy.FormRequest("https://qiming.yw11.com/newqiming/qm/cm/", 
       formdata=self.test_name,
+      headers={'Referer': None},
       callback=self.check_score)
-      
+
     name = self.test_name["xm"]
     total = response.css(".namet1 tr:nth-child(2) td:nth-child(1) .num::text").extract()[0]
     yin = response.css(".namet1 tr:nth-child(2) td:nth-child(2) .co1::text").extract()[0]
@@ -84,4 +85,5 @@ class NameTest(scrapy.Spider):
     self.test_name["xm"] = self.word_list[self.first_word_index][0] + self.word_list[self.second_word_index][0]
     yield scrapy.FormRequest("https://qiming.yw11.com/newqiming/qm/cm/", 
       formdata=self.test_name,
+      headers={'Referer': None},
       callback=self.check_score)
